@@ -1,0 +1,30 @@
+﻿# PKgame ブラウザ版 実装プロンプト
+
+## 目的
+- C:\Users\hiita\src\PKgame\コンソール完結\Main.java を基準に、Spring Boot + Thymeleaf でブラウザ上で遊べる PK ゲームを作成する。
+
+## 前提
+- Java 17 / Maven / Spring Boot
+- 画面は Thymeleaf
+- ゴール、ボール、キーパーを簡易描画する
+- キー配置は `3456789 / wertyuio / sdfghjkl / xcvbnm,` を直感的にクリック可能にする
+
+## 仕様
+- プレイヤーと AI が交互にキッカー/キーパー
+- 5 本で決着しなければサドンデス
+- 早期決着判定あり
+- セーブ範囲・バー判定・AI の ε-greedy は `Main.java` に準拠
+
+## 画面要件
+- ゴール枠を大きく描画
+- ボールとキーパーの簡易表示
+- キー配置のボタン（クリックで入力）
+- スコア・ラウンド・履歴・直近結果を表示
+
+## 出力物
+- `pom.xml`
+- `src/main/java/...` 配下の Spring Boot アプリとゲームロジック
+- `src/main/resources/templates/index.html`
+- `src/main/resources/static/app.css`
+- `src/main/resources/static/app.js`
+- `prompts/` に実装用プロンプトファイル
