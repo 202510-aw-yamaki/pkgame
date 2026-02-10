@@ -435,7 +435,6 @@ public class GameEngine {
         char keepKey;
         String zone;
         String trend;
-        boolean sudden;
     }
 
     private Context buildContext(String kicker, GameState state, char shotKey, char keepKey) {
@@ -448,7 +447,6 @@ public class GameEngine {
         ctx.keepKey = keepKey;
         ctx.zone = shotKey == '\0' ? "" : zoneOf(shotKey);
         ctx.trend = recentTrend(state);
-        ctx.sudden = (state.getPhase() == GameState.Phase.SUDDEN_DEATH);
         return ctx;
     }
 

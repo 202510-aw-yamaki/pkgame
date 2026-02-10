@@ -206,6 +206,17 @@ body {
     transform:translateX(-50%);
 }
 
+.goal-frame {
+    position: absolute;
+    left: 50%;
+    top: 18%;
+    width: 86%;
+    height: 56%;
+    transform: translateX(-50%);
+    pointer-events: none;
+    opacity: 0;
+}
+
 /* back frame */
 .pk-goal__back{
     position:absolute;
@@ -295,6 +306,18 @@ body {
 .pk-goal__bar{ border-top-left-radius:calc(var(--post) * .7); border-top-right-radius:calc(var(--post) * .7); }
 .pk-goal__post--l{ border-top-left-radius:calc(var(--post) * .7); }
 .pk-goal__post--r{ border-top-right-radius:calc(var(--post) * .7); }
+
+.keeper {
+    position: absolute;
+    width: 10%;
+    height: 12%;
+    left: 50%;
+    top: 65%;
+    transform: translate(-50%, -50%);
+    background: #1f6f8b;
+    border-radius: 6px;
+    box-shadow: inset 0 -2px 0 rgba(0,0,0,.18);
+}
 
 .ball {
     position: absolute;
