@@ -1,68 +1,75 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ja">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PKgame</title>
     <link rel="stylesheet" href="/app.css">
 </head>
+
 <body>
-    <div class="page">
-        <header class="hero">
-            <div class="hero-title">
-                <div class="badge">PKGAME</div>
-                <h1>Penalty Kick Arena</h1>
-                <p>クリックでシュート／セーブ。プレイヤー vs CPU</p>
-            </div>
-            <div class="scoreboard">
+    <div class="viewport">
+        <div class="screen">
+            <header class="hero">
+                <div class="hero-title">
+                    <div class="badge">PKGAME</div>
+                    <h1>Penalty Kick Arena</h1>
+                    <p>クリックでシュート／セーブ。プレイヤー vs CPU</p>
+                </div>
+                <button class="new-match" type="button">新しい試合</button>
+            </header>
+
+            <section class="scoreboard">
                 <div class="score">
-                    <div class="label">PLAYER</div>
+                    <div class="label">PL</div>
                     <div class="value" id="score-player">0</div>
                 </div>
                 <div class="score">
                     <div class="label">AI</div>
                     <div class="value" id="score-ai">0</div>
                 </div>
-            </div>
-        </header>
+                <div class="score meta-card">
+                    <div class="meta-row">
+                        <span class="meta-label">PL</span>
+                        <span class="meta-value" id="meta-player"></span>
+                    </div>
+                    <div class="meta-row">
+                        <span class="meta-label">AI</span>
+                        <span class="meta-value" id="meta-ai"></span>
+                    </div>
+                </div>
+            </section>
 
-        <main class="arena">
-            <section class="goal-panel">
-                <div class="goal">
-                    <div class="goal-frame"></div>
-                    <div class="keeper" id="keeper">GK</div>
-                    <div class="ball" id="ball">●</div>
-                </div>
-                <div class="status">
-                    <div class="row">
-                        <span class="tag">PHASE</span>
-                        <span id="phase">NORMAL</span>
+            <main class="arena">
+                <section class="goal-panel">
+                    <div class="goal">
+                        <div class="goal-frame" aria-hidden="true"></div>
+                        <div class="keeper" id="keeper" aria-label="Goal Keeper"></div>
+                        <div class="ball" id="ball" aria-label="Ball">●</div>
                     </div>
-                    <div class="row">
-                        <span class="tag">ROUND</span>
-                        <span id="round">1</span>
-                    </div>
-                    <div class="row">
-                        <span class="tag">NEXT</span>
-                        <span id="next-action">SHOOT</span>
-                    </div>
-                    <div class="row">
-                        <span class="tag">WINNER</span>
-                        <span id="winner">NONE</span>
-                    </div>
-                </div>
+                </section>
+            </main>
+
+            <section class="commentary">
                 <div class="result" id="last-result">結果待ち</div>
                 <div class="message" id="message"></div>
+                <div class="meta" aria-hidden="true">
+                    <span id="phase">NORMAL</span>
+                    <span id="round">1</span>
+                    <span id="next-action">SHOOT</span>
+                    <span id="winner">NONE</span>
+                </div>
             </section>
 
             <section class="control-panel">
                 <div class="keypad" id="keypad"></div>
                 <div class="actions">
-                    <button class="reset" id="reset">新しい試合</button>
+                    <button class="reset" id="reset">新しい試合を開始</button>
                 </div>
                 <div class="history">
                     <div class="history-col">
-                        <div class="history-title">PLAYER</div>
+                        <div class="history-title">PL</div>
                         <div class="history-row" id="history-player"></div>
                     </div>
                     <div class="history-col">
@@ -71,12 +78,14 @@
                     </div>
                 </div>
             </section>
-        </main>
+        </div>
+        <div class="safe-area" aria-hidden="true"></div>
     </div>
 
     <div id="app"
-         th:attr="data-phase=${vm.phase},data-next=${vm.nextAction},data-winner=${vm.winner},data-round=${vm.round},data-sudden=${vm.suddenRound},data-pscore=${vm.playerScore},data-ascore=${vm.aiScore},data-finished=${vm.finished},data-phistory=${vm.playerHistory},data-ahistory=${vm.aiHistory}">
+        th:attr="data-phase=${vm.phase},data-next=${vm.nextAction},data-winner=${vm.winner},data-round=${vm.round},data-sudden=${vm.suddenRound},data-pscore=${vm.playerScore},data-ascore=${vm.aiScore},data-finished=${vm.finished},data-phistory=${vm.playerHistory},data-ahistory=${vm.aiHistory}">
     </div>
     <script src="/app.js"></script>
 </body>
+
 </html>

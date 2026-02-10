@@ -1,4 +1,4 @@
-(() => {
+﻿(() => {
     const app = document.getElementById("app");
     const state = {
         phase: app.dataset.phase || "NORMAL",
@@ -19,6 +19,8 @@
     const lastResult = document.getElementById("last-result");
     const scorePlayer = document.getElementById("score-player");
     const scoreAi = document.getElementById("score-ai");
+    const metaPlayer = document.getElementById("meta-player");
+    const metaAi = document.getElementById("meta-ai");
     const phaseEl = document.getElementById("phase");
     const roundEl = document.getElementById("round");
     const nextActionEl = document.getElementById("next-action");
@@ -26,6 +28,7 @@
     const historyPlayer = document.getElementById("history-player");
     const historyAi = document.getElementById("history-ai");
     const resetBtn = document.getElementById("reset");
+    const newMatchBtn = document.querySelector(".new-match");
     const goal = document.querySelector(".goal");
     const goalFrame = document.querySelector(".goal-frame");
     const ball = document.getElementById("ball");
@@ -78,6 +81,7 @@
         state.playerHistory.forEach((h) => historyPlayer.appendChild(historyChip(h)));
         historyAi.innerHTML = "";
         state.aiHistory.forEach((h) => historyAi.appendChild(historyChip(h)));
+        updateMetaMarks();
 
         if (lastOutcome) {
             lastResult.textContent = `${lastOutcome.shotKey} vs ${lastOutcome.keepKey} : ${toResultText(lastOutcome.result)}`;
@@ -95,6 +99,21 @@
         chip.className = "history-chip";
         chip.textContent = value;
         return chip;
+    }
+
+    function updateMetaMarks() {
+        if (!metaPlayer || !metaAi) return;
+        metaPlayer.textContent = toRecentMarks(state.playerHistory, 5);
+        metaAi.textContent = toRecentMarks(state.aiHistory, 5);
+    }
+
+    function toRecentMarks(history, limit) {
+        if (!history || history.length === 0) return "-";
+        return history.slice(-limit).map((value) => {
+            if (value === "O") return "〇";
+            if (value === "X") return "×";
+            return "-";
+        }).join("");
     }
 
     function toResultText(result) {
@@ -147,6 +166,9 @@
 
     buildKeypad();
     resetBtn.addEventListener("click", onReset);
+    if (newMatchBtn) {
+        newMatchBtn.addEventListener("click", onReset);
+    }
     document.addEventListener("keydown", onKeyDown);
     render();
 
@@ -155,7 +177,7 @@
         if (pending || state.finished) return;
         if (!isValidKey(key)) return;
         pending = true;
-        setMessage("送信中...");
+        setMessage("処理中...");
         render();
         try {
             const res = await fetch("/play", {

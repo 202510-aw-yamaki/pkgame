@@ -1,0 +1,34 @@
+﻿【指示】
+- 文字化けを解消する。
+- 画面内に要素が収まるように比率・余白・サイズを調整する。
+- 修正内容と手順を記録する。
+
+【原因】
+- 以前の編集で `Set-Content` を使ったため、`index.html` / `app.css` / `app.js` が UTF-16 になり、Thymeleaf が UTF-8 として読み込んで文字化けが発生。
+- 9:16 比率の画面に対して、パディングやキーサイズが大きく、キーボード領域がはみ出していた。
+
+【対応内容】
+1. 文字化け対策
+- `index.html` / `app.css` / `app.js` / `GameController.java` を UTF-8(BOM) で再保存。
+- 文字列リテラルを日本語に復元。
+  例: 「結果待ち」「ゴール」「セーブ」「バー」など。
+
+2. レイアウトの収まり改善
+- 画面のグリッド比率を調整。
+  11% / 9% / 44% / 11% / 25% (ヘッダー / スコア / フィールド / 実況 / キーボード)
+- キーサイズと余白を縮小。
+- `.screen > * { min-height: 0; }` を追加してグリッド内のはみ出しを抑制。
+
+【修正方法】
+- 文字化けが出た場合は、該当ファイルを UTF-8 で保存し直す。
+- キーボードや情報欄がはみ出る場合は、
+  - `grid-template-rows` の割合
+  - `padding` / `gap`
+  - `--key-size`
+  を優先して調整する。
+
+【修正ファイル】
+- src/main/resources/templates/index.html
+- src/main/resources/static/app.css
+- src/main/resources/static/app.js
+- src/main/java/com/example/PKGAME/controller/GameController.java

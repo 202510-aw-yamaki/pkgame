@@ -1,4 +1,4 @@
-package com.example.PKGAME.controller;
+﻿package com.example.PKGAME.controller;
 
 import com.example.PKGAME.domain.GameEngine;
 import com.example.PKGAME.domain.GameState;
@@ -31,7 +31,7 @@ public class GameController {
         char ch = key.charAt(0);
         if (!gameService.isValidKey(ch)) {
             return ResponseEntity.badRequest()
-                    .body(new PlayResponse(false, "無効なキーです。", null, null, null,
+                    .body(new PlayResponse(false, "不正なキーです。", null, null, null,
                             toViewModel(gameService.getState())));
         }
 
@@ -39,14 +39,14 @@ public class GameController {
         if ("SHOOT".equalsIgnoreCase(action)) {
             if (gameService.getState().getNextAction() != GameState.NextAction.PLAYER_SHOOT) {
                 return ResponseEntity.badRequest()
-                        .body(new PlayResponse(false, "今はキーパー入力のターンです。", null, null, null,
+                        .body(new PlayResponse(false, "現在のキーパーターンです。", null, null, null,
                                 toViewModel(gameService.getState())));
             }
             outcome = gameService.playerShoot(ch);
         } else if ("KEEP".equalsIgnoreCase(action)) {
             if (gameService.getState().getNextAction() != GameState.NextAction.PLAYER_KEEP) {
                 return ResponseEntity.badRequest()
-                        .body(new PlayResponse(false, "今はシュート入力のターンです。", null, null, null,
+                        .body(new PlayResponse(false, "現在のシューターターンです。", null, null, null,
                                 toViewModel(gameService.getState())));
             }
             outcome = gameService.playerKeep(ch);
