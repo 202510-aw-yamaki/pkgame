@@ -1,0 +1,20 @@
+﻿【作業メモ 2026-02-10 16:10】
+
+■ 概要
+- キーパーは復帰したうえで、方向に応じたポーズを付ける下地を追加。
+- 将来画像に差し替えやすいように、JSで左右/中央のクラスを付与。
+
+■ 変更内容
+- app.js：キーパーの左右/中央ポーズをクラスで切り替え
+- app.css：左右/中央で軽い回転・拡大（画像に置き換えやすい）
+- 画像素材の要件をテキストに保存
+
+■ 作成したファイル
+- prompts/keeper_image_requirements.txt
+
+■ 変更ファイル
+- src/main/resources/static/app.js
+- src/main/resources/static/app.css
+
+■ 次の作業
+- 画像ファイルが揃ったら background-image を切り替える実装に進める

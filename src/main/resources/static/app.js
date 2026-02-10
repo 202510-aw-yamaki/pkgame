@@ -277,42 +277,68 @@
     }
 
     async function animateOutcome(outcome) {
-        const frame = getFrameRect();
-        const start = startPosition(frame);
-        const target = targetPosition(outcome.shotKey, frame);
-        const keepPos = targetPosition(outcome.keepKey, frame);
+        keeper.classList.add("is-active");
+        try {
+            const frame = getFrameRect();
+            const start = startPosition(frame);
+            const target = targetPosition(outcome.shotKey, frame);
+            const keepPos = targetPosition(outcome.keepKey, frame);
+            applyKeeperPose(frame, keepPos);
 
-        placeElement(ball, start.x, start.y, 0);
-        placeElement(keeper, keepPos.x, keepPos.y + 40, 200);
-        await nextFrame();
+            placeElement(ball, start.x, start.y, 0);
+            placeElement(keeper, keepPos.x, keepPos.y + 40, 200);
+            await nextFrame();
 
-        if (outcome.result === "BAR") {
-            const barPos = { x: target.x, y: frame.top + 6 };
-            placeElement(ball, barPos.x, barPos.y, ANIM_TOTAL_MS * 0.7);
-            await wait(ANIM_TOTAL_MS * 0.7);
-            placeElement(ball, barPos.x, barPos.y + 24, ANIM_TOTAL_MS * 0.3);
-            await wait(ANIM_TOTAL_MS * 0.3);
-            return;
-        }
-
-        if (outcome.result === "SAVE") {
-            const mid = { x: keepPos.x, y: keepPos.y + 20 };
-            placeElement(ball, mid.x, mid.y, ANIM_TOTAL_MS * 0.6);
-            await wait(ANIM_TOTAL_MS * 0.6);
-            if (outcome.shotKey === outcome.keepKey) {
+            if (outcome.result === "BAR") {
+                const barPos = { x: target.x, y: frame.top + 6 };
+                placeElement(ball, barPos.x, barPos.y, ANIM_TOTAL_MS * 0.7);
+                await wait(ANIM_TOTAL_MS * 0.7);
+                placeElement(ball, barPos.x, barPos.y + 24, ANIM_TOTAL_MS * 0.3);
+                await wait(ANIM_TOTAL_MS * 0.3);
                 return;
             }
-            const deflect = {
-                x: mid.x + (mid.x < frame.left + frame.width / 2 ? -40 : 40),
-                y: mid.y + 20
-            };
-            placeElement(ball, deflect.x, deflect.y, ANIM_TOTAL_MS * 0.4);
-            await wait(ANIM_TOTAL_MS * 0.4);
-            return;
-        }
 
-        placeElement(ball, target.x, target.y, ANIM_TOTAL_MS);
-        await wait(ANIM_TOTAL_MS);
+            if (outcome.result === "SAVE") {
+                const mid = { x: keepPos.x, y: keepPos.y + 20 };
+                placeElement(ball, mid.x, mid.y, ANIM_TOTAL_MS * 0.6);
+                await wait(ANIM_TOTAL_MS * 0.6);
+                if (outcome.shotKey === outcome.keepKey) {
+                    return;
+                }
+                const deflect = {
+                    x: mid.x + (mid.x < frame.left + frame.width / 2 ? -40 : 40),
+                    y: mid.y + 20
+                };
+                placeElement(ball, deflect.x, deflect.y, ANIM_TOTAL_MS * 0.4);
+                await wait(ANIM_TOTAL_MS * 0.4);
+                return;
+            }
+
+            placeElement(ball, target.x, target.y, ANIM_TOTAL_MS);
+            await wait(ANIM_TOTAL_MS);
+        } finally {
+            keeper.classList.remove("is-active");
+            clearKeeperPose();
+        }
+    }
+
+    function applyKeeperPose(frame, keepPos) {
+        if (!keeper) return;
+        const centerX = frame.left + frame.width / 2;
+        const offset = keepPos.x - centerX;
+        const threshold = frame.width * 0.12;
+        if (offset < -threshold) {
+            keeper.classList.add("keeper--left");
+        } else if (offset > threshold) {
+            keeper.classList.add("keeper--right");
+        } else {
+            keeper.classList.add("keeper--center");
+        }
+    }
+
+    function clearKeeperPose() {
+        if (!keeper) return;
+        keeper.classList.remove("keeper--left", "keeper--right", "keeper--center");
     }
 
     function wait(ms) {

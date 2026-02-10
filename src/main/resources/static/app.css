@@ -317,6 +317,19 @@ body {
     background: #1f6f8b;
     border-radius: 6px;
     box-shadow: inset 0 -2px 0 rgba(0,0,0,.18);
+    transition: transform 0.2s ease;
+}
+
+.keeper.keeper--left {
+    transform: translate(-50%, -50%) rotate(-12deg);
+}
+
+.keeper.keeper--right {
+    transform: translate(-50%, -50%) rotate(12deg);
+}
+
+.keeper.keeper--center {
+    transform: translate(-50%, -50%) scale(1.05);
 }
 
 .ball {
