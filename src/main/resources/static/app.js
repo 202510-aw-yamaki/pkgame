@@ -180,6 +180,9 @@
         setMessage("処理中...");
         render();
         try {
+            if (action === "KEEP") {
+                await animateKeeperByInput(key);
+            }
             const res = await fetch("/play", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -284,6 +287,9 @@
             const target = targetPosition(outcome.shotKey, frame);
             const keepPos = targetPosition(outcome.keepKey, frame);
             applyKeeperPose(frame, keepPos);
+            if (outcome.result === "SAVE") {
+                keeper.classList.add("keeper--catch");
+            }
 
             placeElement(ball, start.x, start.y, 0);
             placeElement(keeper, keepPos.x, keepPos.y + 40, 200);
@@ -322,8 +328,18 @@
         }
     }
 
+    async function animateKeeperByInput(key) {
+        if (!keeper || !goal || !goalFrame) return;
+        const frame = getFrameRect();
+        const keepPos = targetPosition(key, frame);
+        applyKeeperPose(frame, keepPos);
+        placeElement(keeper, keepPos.x, keepPos.y + 40, 180);
+        await wait(180);
+    }
+
     function applyKeeperPose(frame, keepPos) {
         if (!keeper) return;
+        clearKeeperPose();
         const centerX = frame.left + frame.width / 2;
         const offset = keepPos.x - centerX;
         const threshold = frame.width * 0.12;
@@ -338,7 +354,7 @@
 
     function clearKeeperPose() {
         if (!keeper) return;
-        keeper.classList.remove("keeper--left", "keeper--right", "keeper--center");
+        keeper.classList.remove("keeper--left", "keeper--right", "keeper--center", "keeper--catch");
     }
 
     function wait(ms) {
