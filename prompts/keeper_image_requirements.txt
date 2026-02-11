@@ -33,3 +33,8 @@
 ■ 画像配置先
 - 保存先: src/main/resources/static/images/keeper/
 - 上記フォルダに keeper_center.png / keeper_left.png / keeper_right.png（必要に応じて keeper_catch.png / keeper_miss.png）を配置する。
+
+■ 現在の運用（テスト段階）
+- 採用画像は4種: keeper_center.png / keeper_left.png / keeper_right.png / keeper_catch.png
+- keeper_miss.png は未実装（テスト段階では不要として運用）
+- left / right の向きは「画面に向かって見た向き」を基準とする。
